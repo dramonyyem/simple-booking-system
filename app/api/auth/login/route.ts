@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+
 import { checkPassword } from "@/lib/auth";
 import User from "@/models/User";
 import connectDB from "@/lib/db";
-import jwt from "jsonwebtoken";
 
 const SECRET = process.env.JWT_TOKEN || "";
 
@@ -13,6 +14,7 @@ export async function POST(req: Request) {
     await connectDB();
 
     const user = await User.findOne({ username: username });
+
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }

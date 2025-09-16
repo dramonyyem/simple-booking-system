@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { DatePicker } from "@heroui/date-picker";
 import { DateValue } from "@react-types/datepicker";
-import { formatDate } from "@/utils/function";
 import { CalendarDate } from "@internationalized/date";
+
+import { formatDate } from "@/utils/function";
 import CustomLayout from "@/components/layout-custom";
 
 type Time = {
@@ -17,6 +18,7 @@ export default function Page() {
   const [available, setAvailable] = useState<Time[]>([]);
   const today = new Date();
   const tomorrow = new Date(today);
+
   tomorrow.setDate(today.getDate() + 1);
 
   const todayValue = new CalendarDate(
@@ -33,19 +35,23 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const dateInput = formatDate(date);
+
     try {
       const res = await fetch("/api/check_available", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dateInput }),
       });
+
       if (!res.ok) throw new Error("Failed to fetch availability");
       const data = await res.json();
+
       setAvailable(data.time || []);
     } catch (error) {
       // console.log(error);
     }
   };
+
   return (
     <CustomLayout>
       <div className="my-4 flex justify-center items-center">
@@ -61,9 +67,9 @@ export default function Page() {
               <DatePicker
                 className="w-[450px] "
                 label="Booking date"
+                minValue={todayValue}
                 value={date}
                 onChange={setDate}
-                minValue={todayValue}
               />
             </div>
 

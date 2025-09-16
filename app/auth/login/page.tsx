@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Input } from "@heroui/react";
-import Menu from "@/components/menu";
+
 export default function Page() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,10 +20,9 @@ export default function Page() {
       } else {
         alert("Invalid email or password");
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
+
   return (
     <div className="flex">
       <div className="bg-white w-[250px] h-[750px] lg:w-[600px] rounded-[20px] shadow-lg flex justify-center items-center">
@@ -33,17 +31,17 @@ export default function Page() {
             Simple Booking System
           </div>
           <div>
-            Didn't have account ? Click{" "}
-            <a href="/auth/signup" className="text-purple-500 hover:underline">
+            <p>Don&apos;t forget to book!</p>
+            <a className="text-purple-500 hover:underline" href="/auth/signup">
               Create Account
             </a>
           </div>
           <div className="py-2">
-            <label>Username</label>
+            <label htmlFor="username">Username</label>
             <div className="py-1">
               <input
-                type="text"
                 className="bg-gray-100 p-3 lg:w-[400px] h-[60px] border-purple-300 border-1"
+                type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -51,14 +49,14 @@ export default function Page() {
           </div>
           <div className="py-2">
             <div className="flex justify-between">
-              <label>Password</label>
+              <label htmlFor="username">Username</label>
               <div className="text-purple-500">Show</div>
             </div>
 
             <div>
               <input
-                type="text"
                 className="bg-gray-100 p-3 w-[400px] h-[60px] border-purple-300 border-1"
+                type="text"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -66,7 +64,7 @@ export default function Page() {
           </div>
           <div className="py-2">
             <label className="relative flex items-center cursor-pointer">
-              <input type="checkbox" className="sr-only peer" />
+              <input className="sr-only peer" type="checkbox" />
               <div
                 className="w-6 h-6 border-2 border-gray-400 rounded-md flex items-center justify-center
                                 peer-checked:bg-purple-500 peer-checked:border-purple-500"
@@ -79,9 +77,9 @@ export default function Page() {
                   viewBox="0 0 24 24"
                 >
                   <path
+                    d="M5 13l4 4L19 7"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
                   />
                 </svg>
               </div>
@@ -101,8 +99,8 @@ export default function Page() {
                   /> */}
           <div className="py-4">
             <button
-              type="submit"
               className="p-3 w-[100px] rounded-lg bg-purple-500 text-white"
+              type="submit"
             >
               Log In
             </button>

@@ -31,6 +31,7 @@ export default function Menu() {
 
   useEffect(() => {
     const saved = localStorage.getItem("username");
+
     if (saved) {
       setUsername(saved);
       setLoading(false); // instantly show username without fetching
@@ -42,7 +43,7 @@ export default function Menu() {
   return (
     <div className="py-6 bg-white w-full shadow-lg flex justify-between items-center px-4">
       <div className="text-purple-500 flex">
-        <a href="/check_available" className="mx-4">
+        <a className="mx-4" href="/check_available">
           SIMPLE - BOOKING - SYSTEM
         </a>
       </div>
@@ -57,12 +58,12 @@ export default function Menu() {
           >
             <div className="px-2">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="currentColor"
                 className="bi bi-person-fill"
+                fill="currentColor"
+                height="20"
                 viewBox="0 0 16 16"
+                width="20"
+                xmlns="http://www.w3.org/2000/svg"
               >
                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
               </svg>

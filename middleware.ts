@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+
+import { NextResponse } from "next/server";
 import { jwtVerify } from "jose";
 
 const SECRET = new TextEncoder().encode(process.env.JWT_TOKEN);
@@ -21,6 +22,7 @@ export async function middleware(req: NextRequest) {
 
   try {
     const result = await jwtVerify(token, SECRET);
+
     payload = result.payload as Payload;
   } catch (err) {
     return NextResponse.rewrite(new URL("/", req.url));

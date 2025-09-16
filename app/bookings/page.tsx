@@ -3,12 +3,14 @@
 import { useState } from "react";
 import { DatePicker } from "@heroui/date-picker";
 import { DateValue } from "@react-types/datepicker";
-import { formatDate } from "@/utils/function";
 import { Select, SelectItem } from "@heroui/react";
 import { Textarea } from "@heroui/react";
 import { CalendarDate } from "@internationalized/date";
-import CustomLayout from "@/components/layout-custom";
+
 import { available_time } from "../../data/availableTime";
+
+import CustomLayout from "@/components/layout-custom";
+import { formatDate } from "@/utils/function";
 
 export default function Page() {
   const [time, setTime] = useState<string | null>(null);
@@ -16,6 +18,7 @@ export default function Page() {
   const [note, setNote] = useState("");
   const today = new Date();
   const tomorrow = new Date(today);
+
   tomorrow.setDate(today.getDate() + 1);
 
   const todayValue = new CalendarDate(
@@ -31,6 +34,7 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const dateInput = formatDate(date);
+
     try {
       const res = await fetch("/api/bookings", {
         method: "POST",
@@ -38,11 +42,13 @@ export default function Page() {
         body: JSON.stringify({ dateInput, time, note }),
       });
       const data = await res.json();
+
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <CustomLayout>
       <div className="my-8  flex justify-center ">
@@ -50,14 +56,14 @@ export default function Page() {
           <div className="text-[20px] text-purple-500 px-2 py-[20px]">
             Make Booking
           </div>
-          <form onSubmit={handleSubmit} className="w-[400px]">
+          <form className="w-[400px]" onSubmit={handleSubmit}>
             <div className="pt-4">
               <DatePicker
                 className="max-w-full"
                 label="Booking date"
+                minValue={todayValue}
                 value={date}
                 onChange={setDate}
-                minValue={todayValue}
               />
             </div>
             <div className="pt-4">
@@ -65,11 +71,12 @@ export default function Page() {
                 className="max-w-full"
                 label="Booking Hour"
                 placeholder="Select Booking hour"
-                selectionMode="single"
                 selectedKeys={time ? new Set([time]) : new Set()}
+                selectionMode="single"
                 onSelectionChange={(keys) => {
                   if (typeof keys !== "string") {
                     const firstKey = Array.from(keys)[0];
+
                     setTime(firstKey ? String(firstKey) : null);
                   }
                 }}
@@ -83,10 +90,10 @@ export default function Page() {
               <Textarea
                 className="max-w-full"
                 label="Note"
+                maxRows={5}
                 placeholder="Enter your Note"
                 value={note}
                 onChange={(e) => setNote(e.target.value)}
-                maxRows={5}
               />
             </div>
 

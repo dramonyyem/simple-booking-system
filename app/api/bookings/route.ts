@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import Booking from "@/models/Booking";
 import jwt from "jsonwebtoken";
+
+import Booking from "@/models/Booking";
 import connectDB from "@/lib/db";
 
 const SECRET = process.env.JWT_TOKEN || "";
@@ -13,11 +14,13 @@ type Payload = {
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+
   if (!token)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   try {
     const payload = await jwt.verify(token, SECRET);
+
     if (!payload) {
       return NextResponse.json({ error: "No token found" }, { status: 401 });
     }
@@ -39,6 +42,7 @@ export async function POST(req: NextRequest) {
     const { dateInput, time, note } = await req.json();
 
     const payload = (await jwt.verify(token, SECRET)) as Payload;
+
     if (!payload) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -69,6 +73,7 @@ export async function POST(req: NextRequest) {
       note: note,
       user: user,
     });
+
     await booking.save();
 
     return NextResponse.json(

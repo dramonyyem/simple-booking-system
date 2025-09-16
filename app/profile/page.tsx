@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
 import CustomLayout from "@/components/layout-custom";
 
 type User = {
@@ -19,6 +20,7 @@ export default function Page() {
 
   const handleLogout = async () => {
     const res = await fetch("/api/auth/logout", { method: "POST" });
+
     if (res.ok) {
       localStorage.removeItem("username");
       router.push("/auth/login");
@@ -29,6 +31,7 @@ export default function Page() {
       method: "GET",
     });
     const data = await res.json();
+
     setUser(data.user);
   };
 
@@ -37,8 +40,10 @@ export default function Page() {
       method: "GET",
     });
     const data = await res.json();
+
     setBookings(data.bookings);
   };
+
   useEffect(() => {
     userInfomation();
     booking_history();
@@ -58,14 +63,14 @@ export default function Page() {
             </button>
           </div>
         </div>
-        <div className="py-2"></div>
+        <div className="py-2" />
         <div>
           <div className="">Username :</div>
           <div className="text-[30px] text-black">{user.username}</div>
         </div>
         <div className="">email :</div>
         <div className="text-[30px] text-black">{user.email}</div>
-        <div></div>
+        <div />
       </div>
       <div>
         <div className="relative flex flex-col mx-auto w-7/10 min-h-[80px] text-gray-700 border-1 border-gray-300 bg-white shadow-md rounded-xl bg-clip-border p-3 mt-2">
