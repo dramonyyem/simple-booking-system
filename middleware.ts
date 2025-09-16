@@ -1,4 +1,3 @@
-// middleware.ts
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
@@ -11,37 +10,33 @@ type Payload = {
   isAdmin: boolean;
 };
 
-
 export async function middleware(req: NextRequest) {
-    const token = req.cookies.get("token")?.value as string;
-    if(!token){
-        return NextResponse.rewrite(new URL("/", req.url));
-    }
-  
-    const { payload } = await jwtVerify(token, SECRET);
-    // console.log(payload.isAdmin);
-    if(!payload){
-        return NextResponse.json({ error: "No token found" }, { status: 401 });
-    }
-    if (req.nextUrl.pathname.startsWith("/bookings") && !payload.isAdmin) {
-        return NextResponse.rewrite(new URL("/", req.url));
-    }
-    if (req.nextUrl.pathname.startsWith("/users") && !payload.isAdmin) {
-        return NextResponse.rewrite(new URL("/", req.url));
-    }
+  const token = req.cookies.get("token")?.value;
 
-    // API Protect
-    if (req.nextUrl.pathname.startsWith("/api/bookings") && !payload.isAdmin) {
-        return NextResponse.rewrite(new URL("/", req.url));
-    }
-    if (req.nextUrl.pathname.startsWith("/api/users") && !payload.isAdmin) {
-        return NextResponse.rewrite(new URL("/", req.url));
-    }
-    return NextResponse.next();
+  if (!token) {
+    return NextResponse.rewrite(new URL("/", req.url));
+  }
+
+  let payload: Payload;
+
+  try {
+    const result = await jwtVerify(token, SECRET);
+    payload = result.payload as Payload;
+  } catch (err) {
+    return NextResponse.rewrite(new URL("/", req.url));
+  }
+
+  const adminPaths = ["/bookings", "/users", "/api/bookings", "/api/users"];
+
+  if (adminPaths.some(path => req.nextUrl.pathname.startsWith(path)) && !payload.isAdmin) {
+    return NextResponse.rewrite(new URL("/", req.url));
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|check_available|api/check_available|auth|api/auth).*)",
+    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth|check_available|api/check_available).*)",
   ],
 };
