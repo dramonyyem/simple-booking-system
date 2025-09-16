@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Menu() {
   const [username, setUsername] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const userInformation = async () => {
     try {
       const res = await fetch("/api/auth/profile", {
@@ -16,7 +16,7 @@ export default function Menu() {
 
       if (name) {
         setUsername(name);
-        localStorage.setItem("username", name); 
+        localStorage.setItem("username", name);
         setUsername(null);
         localStorage.removeItem("username");
       }

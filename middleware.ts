@@ -28,7 +28,10 @@ export async function middleware(req: NextRequest) {
 
   const adminPaths = ["/bookings", "/users", "/api/bookings", "/api/users"];
 
-  if (adminPaths.some(path => req.nextUrl.pathname.startsWith(path)) && !payload.isAdmin) {
+  if (
+    adminPaths.some((path) => req.nextUrl.pathname.startsWith(path)) &&
+    !payload.isAdmin
+  ) {
     return NextResponse.rewrite(new URL("/", req.url));
   }
 

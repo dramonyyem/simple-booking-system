@@ -1,22 +1,25 @@
 import mongoose, { model, models, Schema } from "mongoose";
 
-const userSchema = new Schema({
+const userSchema = new Schema(
+  {
     username: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     password: { type: String, required: true }, // hashed
-    isAdmin : {
-        type: Boolean,
-        required: true
-    }
-},{timestamps: true})
+    isAdmin: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  { timestamps: true },
+);
 
 const User = models.User || model("User", userSchema);
 
