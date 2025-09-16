@@ -8,13 +8,7 @@ import { Select, SelectItem } from "@heroui/react";
 import {Textarea} from "@heroui/react";
 import { CalendarDate } from "@internationalized/date";
 import CustomLayout from "@/components/layout-custom";
-
-
-
-export const available_time = [
-  { key: "02:00 PM", label: "02:00 PM" },
-  { key: "04:00 PM", label: "04:00 PM" },
-]; 
+import { available_time } from '../../data/availableTime';
 
 export default function Page() {
     const [time, setTime] = useState<string | null>(null);
@@ -24,7 +18,6 @@ export default function Page() {
     const tomorrow = new Date(today);
     tomorrow.setDate(today.getDate() + 1);
 
-    // HeroUI uses DateValue, so we create CalendarDate
     const todayValue = new CalendarDate(
         today.getFullYear(),
         today.getMonth() + 1,
