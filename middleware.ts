@@ -28,7 +28,7 @@ export async function middleware(req: NextRequest) {
     return NextResponse.rewrite(new URL("/", req.url));
   }
 
-  const adminPaths = ["/bookings", "/users", "/api/bookings", "/api/users"];
+  const adminPaths = ["/users", "/api/users"];
 
   if (
     adminPaths.some((path) => req.nextUrl.pathname.startsWith(path)) &&
@@ -42,6 +42,6 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth|check_available|api/check_available).*)",
+    "/((?!_next/static|_next/image|favicon.ico|api/send|auth|api/auth|check_available|api/check_available).*)",
   ],
 };

@@ -7,12 +7,27 @@ const userSchema = new Schema(
       required: true,
       unique: true,
     },
+    firstName: {
+      type: String,
+    },
+    lastName: {
+      type: String,
+    },
+    title: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    phone: {
+      type: String,
+    },
     email: {
       type: String,
       required: true,
       unique: true,
     },
-    password: { type: String, required: true }, // hashed
+    password: { type: String, required: true },
     isAdmin: {
       type: Boolean,
       required: true,

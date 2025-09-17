@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
 import Booking from "@/models/Booking";
+import connectDB from "@/lib/db";
 
 const SECRET = process.env.JWT_TOKEN || "";
 
@@ -24,10 +25,14 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
     const user = payload.userId;
-    const bookings = await Booking.find({ user: user }).populate(
-      "user",
-      "username email",
-    );
+
+    await connectDB();
+
+    let bookings = await Booking.find({ user: user });
+
+    if (payload.isAdmin) {
+      bookings = await Booking.find().populate("user", "username email");
+    }
 
     return NextResponse.json({ bookings });
   } catch (error) {

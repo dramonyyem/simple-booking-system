@@ -21,7 +21,5 @@ export async function POST(req: Request) {
     await user.save();
 
     return NextResponse.json({ msg: "User Insert Successfully" });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }

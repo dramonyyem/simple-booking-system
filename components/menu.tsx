@@ -1,83 +1,64 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+
+import { useUser } from "@/context/UserContext";
+
+interface NavLink {
+  href: string;
+  label: string;
+  icon: string;
+}
 
 export default function Menu() {
-  const [username, setUsername] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const userInformation = async () => {
-    try {
-      const res = await fetch("/api/auth/profile", {
-        method: "GET",
-        credentials: "include",
-      });
-      const data = await res.json();
-      const name = data?.user?.username || null;
-
-      if (name) {
-        setUsername(name);
-        localStorage.setItem("username", name);
-        setUsername(null);
-        localStorage.removeItem("username");
-      }
-    } catch (error) {
-      console.error("Failed to load user:", error);
-      setUsername(null);
-      localStorage.removeItem("username");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { user } = useUser();
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
-    const saved = localStorage.getItem("username");
-
-    if (saved) {
-      setUsername(saved);
-      setLoading(false); // instantly show username without fetching
-    } else {
-      userInformation();
-    }
+    setMounted(true);
   }, []);
+
+  if (!mounted) return null;
+
+  const allLinks: NavLink[] = [
+    { href: "/dashboard", label: "Dashboard", icon: "D" },
+    { href: "/profile", label: "Profile Detail", icon: "P" },
+    { href: "/security", label: "Security", icon: "S" },
+    { href: "/booking_histories", label: "Booking History", icon: "B" },
+    { href: "/users", label: "User", icon: "U" },
+  ];
+
+  // Make Profile link active if current path is in any of the allLinks routes
+  const profileActive = allLinks.some((link) => link.href === pathname);
 
   return (
     <div className="py-6 bg-white w-full shadow-lg flex justify-between items-center px-4">
+      {/* Logo */}
       <div className="text-purple-500 flex">
-        <a className="mx-4" href="/check_available">
-          SIMPLE - BOOKING - SYSTEM
-        </a>
+        <Link href="/check_available">SIMPLE - BOOKING - SYSTEM</Link>
       </div>
+
+      {/* User / Links */}
       <div className="flex items-center">
-        <div className="border h-[30px] border-gray-300" />
-        {loading ? (
-          <div className="px-2 text-gray-500">Loading...</div>
-        ) : username ? (
-          <a
-            className="px-2 flex justify-center items-center text-gray-500"
-            href="/profile"
-          >
-            <div className="px-2">
-              <svg
-                className="bi bi-person-fill"
-                fill="currentColor"
-                height="20"
-                viewBox="0 0 16 16"
-                width="20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
-              </svg>
-            </div>
-            <div>{username}</div>
-          </a>
-        ) : (
-          <a
-            className="px-2 flex justify-center items-center text-gray-500"
-            href="/auth/login"
-          >
-            Login ?
-          </a>
-        )}
+        <div className="h-[30px] text-gray-500">
+          {user?.username ? (
+            <Link
+              className={
+                profileActive
+                  ? "font-bold text-purple-500"
+                  : "hover:text-purple-500"
+              }
+              href="/profile"
+            >
+              {user.username}
+            </Link>
+          ) : (
+            <Link href="/auth/login">Login</Link>
+          )}
+        </div>
       </div>
     </div>
   );

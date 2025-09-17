@@ -6,7 +6,6 @@ import { DateValue } from "@react-types/datepicker";
 import { Select, SelectItem } from "@heroui/react";
 import { Textarea } from "@heroui/react";
 import { CalendarDate } from "@internationalized/date";
-import toast, { Toaster } from "react-hot-toast";
 
 import { available_time } from "../../data/availableTime";
 
@@ -34,7 +33,6 @@ export default function Page() {
   );
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     const dateInput = formatDate(date);
 
     try {
@@ -45,21 +43,14 @@ export default function Page() {
       });
       const data = await res.json();
 
-      if (data.status == 401) {
-        toast.error(data.message);
-      }
-
-      if (data.status == 200) {
-        toast.success(data.message);
-      }
-      // toast.success("Booking updated successfully!");
-    } catch (error) {}
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <CustomLayout>
-      <Toaster position="top-center" />
-
       <div className="my-8  flex justify-center ">
         <div className="bg-white border-1 border-gray-purple p-5 rounded-lg shadow-fuchsia-200 shadow-lg">
           <div className="text-[20px] text-purple-500 px-2 py-[20px]">

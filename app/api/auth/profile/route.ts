@@ -27,6 +27,6 @@ export async function GET(req: NextRequest) {
 
     const user = await User.findOne({ _id: userId });
 
-    return NextResponse.json({ user, payload });
+    return NextResponse.json({ user, payload, token });
   } catch (error) {}
 }

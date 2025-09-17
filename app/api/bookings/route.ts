@@ -25,6 +25,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "No token found" }, { status: 401 });
     }
     await connectDB();
+
     const bookings = await Booking.find({});
 
     return NextResponse.json({ bookings });
@@ -36,7 +37,7 @@ export async function POST(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   if (!token)
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized", status: 401 });
 
   try {
     const { dateInput, time, note } = await req.json();
@@ -44,14 +45,13 @@ export async function POST(req: NextRequest) {
     const payload = (await jwt.verify(token, SECRET)) as Payload;
 
     if (!payload) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+      return NextResponse.json({ message: "Unauthorized", status: 401 });
     }
-
-    if (dateInput === "" || time === "") {
-      return NextResponse.json(
-        { message: "Pleaae fill in Date and time" },
-        { status: 401 },
-      );
+    if (dateInput == "" || time == null) {
+      return NextResponse.json({
+        message: "Pleaae fill in Date and time",
+        status: 401,
+      });
     }
 
     await connectDB();
@@ -61,10 +61,10 @@ export async function POST(req: NextRequest) {
     });
 
     if (checkIfTimePrevent) {
-      return NextResponse.json(
-        { message: "Booking Time Unavailable" },
-        { status: 401 },
-      );
+      return NextResponse.json({
+        message: "Booking Time Unavailable",
+        status: 401,
+      });
     }
     const user = payload.userId;
     const booking = new Booking({
@@ -76,11 +76,9 @@ export async function POST(req: NextRequest) {
 
     await booking.save();
 
-    return NextResponse.json(
-      { message: "booking Add Successful" },
-      { status: 200 },
-    );
-  } catch (error) {
-    console.log(error);
-  }
+    return NextResponse.json({
+      message: "booking Add Successful",
+      status: 200,
+    });
+  } catch (error) {}
 }

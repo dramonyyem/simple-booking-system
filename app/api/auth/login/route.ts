@@ -16,12 +16,12 @@ export async function POST(req: Request) {
     const user = await User.findOne({ username: username });
 
     if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
+      return NextResponse.json({ message: "User not found", status: 404 });
     }
     const isAuth: boolean = await checkPassword(password, user.password);
 
     if (!isAuth) {
-      return NextResponse.json({ message: "Invalid credentials" });
+      return NextResponse.json({ message: "Invalid credentials", status: 404 });
     }
 
     const token = jwt.sign(
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
       SECRET,
       { expiresIn: "1d" },
     );
-    const res = NextResponse.json({ message: "Login successful" });
+    const res = NextResponse.json({ message: "Login successful", status: 200 });
 
     res.cookies.set("token", token, {
       httpOnly: true,
