@@ -123,7 +123,7 @@ export default function Page() {
 
   return (
     <CustomLayout>
-      <div className="fflex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
+      <div className="flex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
         <aside className="w-full lg:w-1/4 bg-white mt-2 min-h-[500px] rounded-lg shadow-sm">
           <Navigation />
         </aside>
