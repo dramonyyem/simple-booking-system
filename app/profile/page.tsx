@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import CustomLayout from "@/components/layout-custom";
 import Navigation from "@/components/navigation";
@@ -28,11 +28,10 @@ export default function ProfilePage() {
 
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
-
       setUser(data.user);
     } catch (err) {
       console.error("Profile fetch error:", err);
-      alert("Failed to fetch user profile");
+      toast.error("Failed to fetch user profile");
     }
   };
 
@@ -119,13 +118,12 @@ export default function ProfilePage() {
 
   return (
     <CustomLayout>
+      <Toaster position="top-center" />
       <div className="flex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
-        {/* Sidebar */}
         <aside className="w-full lg:w-1/4 bg-white mt-2 rounded-lg shadow-sm">
           <Navigation />
         </aside>
 
-        {/* Main content */}
         <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-hidden">
           <h2 className="text-black text-2xl md:text-3xl font-semibold px-2 mb-2">
             Personal Details

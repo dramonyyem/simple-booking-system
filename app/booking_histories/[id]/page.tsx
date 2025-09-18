@@ -123,11 +123,11 @@ export default function Page() {
 
   return (
     <CustomLayout>
-      <div className="flex justify-center mx-auto w-7/10">
-        <aside className="w-2/10 bg-white h-[700px] mt-2 mx-2 rounded-lg">
+      <div className="fflex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
+        <aside className="w-full lg:w-1/4 bg-white mt-2 min-h-[500px] rounded-lg shadow-sm">
           <Navigation />
         </aside>
-        <div className="relative flex flex-col mt-2 mx-auto w-8/10 h-[700px] text-gray-700 border border-gray-300 bg-white shadow-md rounded-xl p-3">
+        <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-auto">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-black text-2xl md:text-3xl font-semibold px-2 mb-2">
               Booking History
