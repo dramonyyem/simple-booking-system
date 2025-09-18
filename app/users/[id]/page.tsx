@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Link from "next/link";
 
 import Navigation from "@/components/navigation";
@@ -125,6 +125,7 @@ export default function ProfilePage() {
 
   return (
     <CustomLayout>
+      <Toaster position="top-center" />
       <div className="flex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
         <aside className="w-full lg:w-1/4 bg-white mt-2 rounded-lg shadow-sm">
           <Navigation />
