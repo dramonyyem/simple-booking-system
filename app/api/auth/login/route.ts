@@ -40,6 +40,5 @@ export async function POST(req: Request) {
 
     return res;
   } catch (error) {
-    console.log(error);
   }
 }

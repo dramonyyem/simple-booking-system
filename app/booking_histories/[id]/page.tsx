@@ -13,6 +13,7 @@ import { available_time } from "../../../data/availableTime";
 import CustomLayout from "@/components/layout-custom";
 import Navigation from "@/components/navigation";
 import { formatDate } from "@/utils/function";
+import Link from "next/link";
 
 type Booking = {
   date: string;
@@ -87,12 +88,12 @@ export default function Page() {
     findBooking();
   }, []);
 
-  /** 🔹 Handle submit update */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const dataInput = formatDate(date);
 
     try {
+
       setIsSubmitting(true);
 
       const res = await fetch(`/api/bookings/${id}`, {
@@ -124,11 +125,32 @@ export default function Page() {
   return (
     <CustomLayout>
       <div className="flex justify-center mx-auto w-7/10">
-        <aside className="w-2/10 bg-white mt-2 mx-2 rounded-lg">
+        <aside className="w-2/10 bg-white h-[700px] mt-2 mx-2 rounded-lg">
           <Navigation />
         </aside>
-        <div className="relative flex flex-col mt-2 mx-auto w-8/10 h-[750px] text-gray-700 border border-gray-300 bg-white shadow-md rounded-xl p-3">
-          <div className="text-black text-[30px] px-2">Booking Histories</div>
+        <div className="relative flex flex-col mt-2 mx-auto w-8/10 h-[700px] text-gray-700 border border-gray-300 bg-white shadow-md rounded-xl p-3">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-black text-2xl md:text-3xl font-semibold px-2 mb-2">
+                Booking History
+            </h2>
+            <div className="text-gray-400 hover:underline flex justify-center items-center">
+                <div className="px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                    </svg>
+                </div>
+                <div>
+                    <p>
+                        <Link href="/booking_history">
+                            Back
+                        </Link>
+                        
+                    </p>
+                </div>
+                
+            </div>
+            
+          </div>
           <div className="px-2">Updated Your Booking No. {id} </div>
           {loading && <div className="p-6">Loading booking...</div>}
           {error && <div className="p-6 text-red-500">{error}</div>}

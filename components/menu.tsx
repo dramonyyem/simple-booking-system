@@ -31,17 +31,16 @@ export default function Menu() {
     { href: "/users", label: "User", icon: "U" },
   ];
 
-  // Make Profile link active if current path is in any of the allLinks routes
-  const profileActive = allLinks.some((link) => link.href === pathname);
+  const profileActive = allLinks.some(
+    (link) => pathname === link.href || pathname.startsWith(link.href + "/")
+  );
 
   return (
     <div className="py-6 bg-white w-full shadow-lg flex justify-between items-center px-4">
-      {/* Logo */}
       <div className="text-purple-500 flex">
         <Link href="/check_available">SIMPLE - BOOKING - SYSTEM</Link>
       </div>
 
-      {/* User / Links */}
       <div className="flex items-center">
         <div className="h-[30px] text-gray-500">
           {user?.username ? (

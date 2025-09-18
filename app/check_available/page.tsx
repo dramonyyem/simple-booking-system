@@ -16,7 +16,8 @@ type Time = {
 export default function Page() {
   const [date, setDate] = useState<DateValue | null>(null);
   const [available, setAvailable] = useState<Time[]>([]);
-  const [isLoading, setIsLoading] = useState(false); // 🔹 loading state
+  const [isLoading, setIsLoading] = useState(false);
+  const [display, setDisplay] = useState([]);
   const today = new Date();
 
   const todayValue = new CalendarDate(
@@ -30,7 +31,7 @@ export default function Page() {
     if (!date) return;
 
     setIsLoading(true);
-    setAvailable([]); // clear previous results
+    setAvailable([]);
     const dateInput = formatDate(date);
 
     try {
@@ -44,6 +45,11 @@ export default function Page() {
       const data = await res.json();
 
       setAvailable(data.time || []);
+
+      setDisplay(data.bookings);
+
+      console.log(display)
+
     } catch (error) {
       console.error(error);
     } finally {
@@ -135,7 +141,7 @@ export default function Page() {
                 <a
                   key={t.key}
                   className="text-center border border-purple-300 rounded-lg py-2 px-3 hover:bg-purple-600 hover:text-white transition cursor-pointer"
-                  href="/auth/login"
+                  href="/bookings"
                 >
                   {t.label}
                 </a>

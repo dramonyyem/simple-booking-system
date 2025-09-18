@@ -49,7 +49,6 @@ export default function Navigation() {
       setUser(null);
       router.push("/");
     } catch (error) {
-      console.error("Logout failed:", error);
     } finally {
       setIsLoggingOut(false);
     }
@@ -58,10 +57,12 @@ export default function Navigation() {
   return (
     <nav className="mx-2 my-2 flex flex-col gap-1">
       <div className="w-[100px] bg-gray-200 h-[100px] border-1 flex justify-center items-center rounded-[100px] mx-auto my-4">
-        <div className="text-[40px]">M</div>
+        <div className="text-[40px]">  
+            {user?.username?.charAt(0).toUpperCase() || "?"}
+        </div>
       </div>
       <div className="text-center text-[20px] bold">{user?.username}</div>
-      <div className="text-center mb-4">daramony@gmail.com</div>
+      <div className="text-center mb-4">{user?.email}</div>
       <hr className="my-2 border-gray-200" />
       {filteredLinks.map((link) => {
         const isActive =

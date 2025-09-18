@@ -13,6 +13,7 @@ type Payload = {
 };
 
 export async function GET(req: NextRequest) {
+  
   const token = req.cookies.get("token")?.value;
 
   if (!token)
@@ -28,7 +29,7 @@ export async function GET(req: NextRequest) {
 
     await connectDB();
 
-    let bookings = await Booking.find({ user: user });
+    let bookings = await Booking.find({ user: user }).populate("user", "username email");;
 
     if (payload.isAdmin) {
       bookings = await Booking.find().populate("user", "username email");

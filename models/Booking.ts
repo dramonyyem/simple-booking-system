@@ -10,6 +10,9 @@ const bookingSchema = new Schema(
       type: String,
       required: true,
     },
+    status: {
+      type: String,
+    },
     note: {
       type: String,
     },

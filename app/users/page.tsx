@@ -31,21 +31,18 @@ export default function Page() {
 
   return (
     <CustomLayout>
-      <div className="flex justify-center mx-auto w-7/10">
-        <aside className="w-2/10 bg-white mt-2 mx-2 rounded-lg">
+      <div className="flex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
+        <aside className="w-full lg:w-1/4 bg-white mt-2 rounded-lg shadow-sm">
           <Navigation />
         </aside>
 
-        <div className="relative flex flex-col mx-auto mt-2 w-8/10 h-[700px] text-gray-700 border border-gray-300 bg-white shadow-md rounded-xl p-4">
+        <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-hidden">
           <div className="flex justify-between items-center mb-4">
             <div className="text-black text-[30px]">User List</div>
-            <button className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition">
-              Add User
-            </button>
+            
           </div>
           <hr className="border-gray-300 mb-4" />
 
-          {/* Table */}
           <table className="w-full table-auto border-collapse border border-gray-300 text-left">
             <thead>
               <tr className="bg-gradient-to-r from-purple-500 to-pink-500 text-white">

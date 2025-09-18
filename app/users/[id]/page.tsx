@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import CustomLayout from "@/components/layout-custom";
 import Navigation from "@/components/navigation";
+import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type User = {
-  _id: string;
   title?: string;
   firstName?: string;
   lastName?: string;
@@ -18,8 +19,10 @@ type User = {
 };
 
 export default function ProfilePage() {
-  const [user, setUser] = useState<User | null>(null);
-  const [editingField, setEditingField] = useState<keyof User | null>(null);
+    const { id } = useParams<{ id: string }>();
+    const [user, setUser] = useState<User | null>(null);
+    const [editingField, setEditingField] = useState<keyof User | null>(null);
+
 
   const fetchUser = async () => {
     try {
@@ -47,23 +50,25 @@ export default function ProfilePage() {
 
     try {
       if (field === "phone" && !/^\d*$/.test(user.phone ?? "")) {
-        toast.error("Phone number must be numeric");
+        alert("Phone number must be numeric");
         return;
       }
 
       const res = await fetch("/api/auth/profile", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user._id, [field]: user[field] ?? "" }),
+        body: JSON.stringify({ userId: id, [field]: user[field] ?? "" }),
       });
 
       if (!res.ok) throw new Error("Update failed");
 
       const data = await res.json();
       setUser(data.user);
+      toast.success("User Updated");
+
       setEditingField(null);
-      toast.success("Profile Updated");
     } catch (err) {
+      console.error("Failed to update user:", err);
       toast.error("Failed to update user");
     }
   };
@@ -114,17 +119,35 @@ export default function ProfilePage() {
   return (
     <CustomLayout>
       <div className="flex flex-col lg:flex-row justify-center mx-auto w-full lg:w-11/12 xl:w-7/10 gap-4">
-        {/* Sidebar */}
         <aside className="w-full lg:w-1/4 bg-white mt-2 rounded-lg shadow-sm">
           <Navigation />
         </aside>
 
-        {/* Main content */}
         <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-hidden">
-          <h2 className="text-black text-2xl md:text-3xl font-semibold px-2 mb-2">
-            Personal Details
-          </h2>
-          <p className="px-2 mb-4 text-gray-500">Update Your Information</p>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-black text-2xl md:text-3xl font-semibold px-2 mb-2">
+                User Details
+            </h2>
+            <div className="text-gray-400 hover:underline flex justify-center items-center">
+                <div className="px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+                    </svg>
+                </div>
+                <div>
+                    <p>
+                        <Link href="/users">
+                            Back
+                        </Link>
+                        
+                    </p>
+                </div>
+                
+            </div>
+            
+          </div>
+
+          <p className="px-2 mb-4 text-gray-500">Update User Information</p>
 
           {renderField("Title", "title")}
           {renderField("First Name", "firstName")}

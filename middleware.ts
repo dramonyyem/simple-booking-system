@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
   if (!token) {
-    return NextResponse.rewrite(new URL("/", req.url));
+    return NextResponse.rewrite(new URL("/auth/login", req.url));
   }
 
   let payload: Payload;

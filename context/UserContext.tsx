@@ -11,6 +11,7 @@ import {
 interface User {
   isAdmin: boolean;
   username?: string;
+  email: string;
 }
 
 interface UserContextType {
