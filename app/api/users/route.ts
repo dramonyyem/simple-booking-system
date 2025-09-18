@@ -25,10 +25,10 @@ export async function GET(req: NextRequest) {
   } catch (error) {}
 }
 
-export async function POST(req: Request) {
-  try {
-    const { username, password, email } = await req.json();
+// export async function POST(req: Request) {
+//   try {
+//     const { username, password, email } = await req.json();
 
-    return NextResponse.json({ username, password, email });
-  } catch (error) {}
-}
+//     return NextResponse.json({ username, password, email });
+//   } catch (error) {}
+// }

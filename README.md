@@ -25,5 +25,16 @@ method : POST - API: /api/auth/signup
 method : POST - API: /api/auth/reset-token
 
 method: GET - API: /api/booking_histories
-method: GET - API: /api/booking_histories
+method: GET - API: /api/bookings
+method: GET - API: /api/bookings/[id]
+method: POST - API: /api/bookings
+method: DELETE - API: /api/bookings
 
+method: POST - API: /api/check_available
+method: GET - API: /api/users
+method: GET - API: /api/users/[id]
+
+# Admin User for login
+
+username: daramony
+password: Mony2001

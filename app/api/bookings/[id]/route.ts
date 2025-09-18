@@ -6,7 +6,7 @@ import connectDB from "@/lib/db";
 
 const getIdFromRequest = (req: Request) => {
   const url = new URL(req.url);
-  const segments = url.pathname.split("/"); // e.g., ['', 'api', 'bookings', '123']
+  const segments = url.pathname.split("/");
 
   return segments[segments.length - 1];
 };

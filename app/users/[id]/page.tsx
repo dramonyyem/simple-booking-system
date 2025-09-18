@@ -26,7 +26,9 @@ export default function ProfilePage() {
 
   const fetchUser = async () => {
     try {
-      const res = await fetch("/api/auth/profile");
+      const res = await fetch(`/api/users/${id}`, {
+        method: "GET",
+      });
 
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
