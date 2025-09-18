@@ -57,8 +57,8 @@ export default function Navigation() {
   return (
     <nav className="mx-2 my-2 flex flex-col gap-1">
       <div className="w-[100px] bg-gray-200 h-[100px] border-1 flex justify-center items-center rounded-[100px] mx-auto my-4">
-        <div className="text-[40px]">  
-            {user?.username?.charAt(0).toUpperCase() || "?"}
+        <div className="text-[40px]">
+          {user?.username?.charAt(0).toUpperCase() || "?"}
         </div>
       </div>
       <div className="text-center text-[20px] bold">{user?.username}</div>

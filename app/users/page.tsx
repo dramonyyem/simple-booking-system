@@ -39,7 +39,6 @@ export default function Page() {
         <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-hidden">
           <div className="flex justify-between items-center mb-4">
             <div className="text-black text-[30px]">User List</div>
-            
           </div>
           <hr className="border-gray-300 mb-4" />
 

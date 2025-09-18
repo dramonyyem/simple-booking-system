@@ -32,7 +32,7 @@ export default function Menu() {
   ];
 
   const profileActive = allLinks.some(
-    (link) => pathname === link.href || pathname.startsWith(link.href + "/")
+    (link) => pathname === link.href || pathname.startsWith(link.href + "/"),
   );
 
   return (

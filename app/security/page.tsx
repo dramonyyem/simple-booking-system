@@ -38,13 +38,16 @@ export default function SecurityPage() {
   });
 
   const [token, setToken] = useState<string>("");
-  const [editingField, setEditingField] = useState<"username" | "password" | null>(null);
+  const [editingField, setEditingField] = useState<
+    "username" | "password" | null
+  >(null);
   const [loading, setLoading] = useState(false);
 
   // Fetch user profile
   const fetchUserInfo = async () => {
     try {
       const res = await fetch("/api/auth/profile");
+
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
 
@@ -75,8 +78,10 @@ export default function SecurityPage() {
   const handleResetToken = async () => {
     try {
       const res = await fetch("/api/auth/reset-token", { method: "POST" });
+
       if (!res.ok) throw new Error("Failed to reset token");
       const data = await res.json();
+
       setToken(data.token || "");
       toast.success("Token has been reset!");
     } catch (err) {
@@ -97,6 +102,7 @@ export default function SecurityPage() {
         if (!user.username.trim()) {
           toast.error("Username cannot be empty");
           setLoading(false);
+
           return;
         }
         payload.username = user.username.trim();
@@ -104,6 +110,7 @@ export default function SecurityPage() {
         if (!user.password) {
           toast.error("Password cannot be empty");
           setLoading(false);
+
           return;
         }
         payload.password = user.password;
@@ -146,7 +153,7 @@ export default function SecurityPage() {
     label: string,
     field: "username" | "password" | "token",
     readOnly = false,
-    type: "text" | "password" = "text"
+    type: "text" | "password" = "text",
   ) => {
     const value = field === "token" ? token : user[field] || "";
 
@@ -167,25 +174,31 @@ export default function SecurityPage() {
             type={type}
             value={value}
             onChange={(e) =>
-              field !== "token" && handleChange(field as keyof User, e.target.value)
+              field !== "token" &&
+              handleChange(field as keyof User, e.target.value)
             }
           />
 
-          {!readOnly && field !== "token" && (
-            editingField === field ? (
+          {!readOnly &&
+            field !== "token" &&
+            (editingField === field ? (
               <div className="flex gap-2">
                 <button
                   className={`bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded-lg font-semibold transition-colors ${
                     loading ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={loading}
-                  onClick={() => handleSaveField(field as "username" | "password")}
+                  onClick={() =>
+                    handleSaveField(field as "username" | "password")
+                  }
                 >
                   {loading ? "Saving..." : "Save"}
                 </button>
                 <button
                   className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-1 rounded-lg font-semibold transition-colors"
-                  onClick={() => handleCancelEdit(field as "username" | "password")}
+                  onClick={() =>
+                    handleCancelEdit(field as "username" | "password")
+                  }
                 >
                   Cancel
                 </button>
@@ -193,12 +206,13 @@ export default function SecurityPage() {
             ) : (
               <button
                 className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-lg font-semibold transition-colors"
-                onClick={() => setEditingField(field as "username" | "password")}
+                onClick={() =>
+                  setEditingField(field as "username" | "password")
+                }
               >
                 Edit
               </button>
-            )
-          )}
+            ))}
 
           {field === "token" && (
             <button

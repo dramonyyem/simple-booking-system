@@ -33,14 +33,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ user, payload, token });
   } catch (error) {
     console.error("GET /api/users error:", error);
-    return NextResponse.json({ error: "Invalid or expired token" }, { status: 401 });
+
+    return NextResponse.json(
+      { error: "Invalid or expired token" },
+      { status: 401 },
+    );
   }
 }
 
 export async function PATCH(req: Request) {
-
   try {
-    
     await connectDB();
 
     const { userId, password, username, ...updates } = await req.json();
@@ -48,17 +50,21 @@ export async function PATCH(req: Request) {
     if (!userId) {
       return NextResponse.json(
         { error: "User ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Check for duplicate username
     if (username) {
-      const existingUser = await User.findOne({ username, _id: { $ne: userId } });
+      const existingUser = await User.findOne({
+        username,
+        _id: { $ne: userId },
+      });
+
       if (existingUser) {
         return NextResponse.json(
           { error: "Username already exists" },
-          { status: 409 }
+          { status: 409 },
         );
       }
       updates.username = username;
@@ -68,20 +74,18 @@ export async function PATCH(req: Request) {
     if (password && password.trim() !== "") {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
+
       updates.password = hashedPassword;
     }
 
     const user = await User.findByIdAndUpdate(
       userId,
       { $set: updates },
-      { new: true }
+      { new: true },
     ).select("-password");
 
     if (!user) {
-      return NextResponse.json(
-        { error: "User not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
     return NextResponse.json({ user }, { status: 200 });
@@ -92,13 +96,13 @@ export async function PATCH(req: Request) {
     if (err.code === 11000) {
       return NextResponse.json(
         { error: "Duplicate field value detected" },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
     return NextResponse.json(
       { error: "Failed to update user" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

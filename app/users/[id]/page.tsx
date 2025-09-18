@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import CustomLayout from "@/components/layout-custom";
-import Navigation from "@/components/navigation";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Link from "next/link";
+
+import Navigation from "@/components/navigation";
+import CustomLayout from "@/components/layout-custom";
 
 type User = {
   title?: string;
@@ -19,16 +20,17 @@ type User = {
 };
 
 export default function ProfilePage() {
-    const { id } = useParams<{ id: string }>();
-    const [user, setUser] = useState<User | null>(null);
-    const [editingField, setEditingField] = useState<keyof User | null>(null);
-
+  const { id } = useParams<{ id: string }>();
+  const [user, setUser] = useState<User | null>(null);
+  const [editingField, setEditingField] = useState<keyof User | null>(null);
 
   const fetchUser = async () => {
     try {
       const res = await fetch("/api/auth/profile");
+
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
+
       setUser(data.user);
     } catch (err) {
       console.error("Profile fetch error:", err);
@@ -51,6 +53,7 @@ export default function ProfilePage() {
     try {
       if (field === "phone" && !/^\d*$/.test(user.phone ?? "")) {
         alert("Phone number must be numeric");
+
         return;
       }
 
@@ -63,6 +66,7 @@ export default function ProfilePage() {
       if (!res.ok) throw new Error("Update failed");
 
       const data = await res.json();
+
       setUser(data.user);
       toast.success("User Updated");
 
@@ -75,7 +79,8 @@ export default function ProfilePage() {
 
   const renderField = (label: string, field: keyof User) => {
     if (!user) return null;
-    const value = typeof user[field] === "string" ? (user[field] as string) : "";
+    const value =
+      typeof user[field] === "string" ? (user[field] as string) : "";
 
     return (
       <div
@@ -126,25 +131,30 @@ export default function ProfilePage() {
         <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-hidden">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-black text-2xl md:text-3xl font-semibold px-2 mb-2">
-                User Details
+              User Details
             </h2>
             <div className="text-gray-400 hover:underline flex justify-center items-center">
-                <div className="px-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chevron-left" viewBox="0 0 16 16">
-                        <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
-                    </svg>
-                </div>
-                <div>
-                    <p>
-                        <Link href="/users">
-                            Back
-                        </Link>
-                        
-                    </p>
-                </div>
-                
+              <div className="px-2">
+                <svg
+                  className="bi bi-chevron-left"
+                  fill="currentColor"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  width="16"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"
+                    fillRule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p>
+                  <Link href="/users">Back</Link>
+                </p>
+              </div>
             </div>
-            
           </div>
 
           <p className="px-2 mb-4 text-gray-500">Update User Information</p>

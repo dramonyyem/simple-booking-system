@@ -1,19 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
-} from "@heroui/react";
 
 import CustomLayout from "@/components/layout-custom";
 import Navigation from "@/components/navigation";
-
 
 export default function Page() {
   const router = useRouter();
@@ -22,6 +12,7 @@ export default function Page() {
 
   const handleLogout = async () => {
     const res = await fetch("/api/auth/logout", { method: "POST" });
+
     if (res.ok) {
       localStorage.removeItem("username");
       router.push("/auth/login");
@@ -36,11 +27,13 @@ export default function Page() {
   const fetchuser = async () => {
     const res = await fetch("/api/users", { method: "GET" });
     const users = await res.json();
+
     setUsers(users);
   };
   const booking_history = async () => {
     const res = await fetch("/api/booking_histories", { method: "GET" });
     const data = await res.json();
+
     setBookings(data.bookings);
   };
 
@@ -59,8 +52,9 @@ export default function Page() {
 
         <div className="flex-1 flex flex-col mt-2 bg-white shadow-md rounded-xl p-4 min-h-[500px] overflow-x-hidden">
           <div className="flex justify-between items-center mb-4">
-            <div className="text-black text-2xl md:text-3xl font-semibold">Dashboard</div>
-
+            <div className="text-black text-2xl md:text-3xl font-semibold">
+              Dashboard
+            </div>
           </div>
 
           <hr className="border-gray-300 mb-4" />
@@ -68,7 +62,9 @@ export default function Page() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <div className="bg-blue-500 text-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center">
               <p className="text-sm md:text-base">Total Bookings</p>
-              <p className="text-2xl md:text-3xl font-bold">{bookings.length}</p>
+              <p className="text-2xl md:text-3xl font-bold">
+                {bookings.length}
+              </p>
             </div>
             <div className="bg-green-500 text-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center">
               <p className="text-sm md:text-base">Total Customers</p>
@@ -76,10 +72,11 @@ export default function Page() {
             </div>
             <div className="bg-yellow-500 text-white rounded-xl shadow-md p-4 flex flex-col items-center justify-center">
               <p className="text-sm md:text-base">Total Confirmed</p>
-              <p className="text-2xl md:text-3xl font-bold">{bookings.length}</p>
+              <p className="text-2xl md:text-3xl font-bold">
+                {bookings.length}
+              </p>
             </div>
           </div>
-
         </div>
       </div>
     </CustomLayout>

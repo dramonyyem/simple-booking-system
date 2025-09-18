@@ -18,16 +18,15 @@ export async function POST(req: NextRequest) {
       if (existingUser.username === username) {
         return NextResponse.json(
           { success: false, message: "Username already exists" },
-          { status: 400 }
+          { status: 400 },
         );
       }
       if (existingUser.email === email) {
         return NextResponse.json(
           { success: false, message: "Email already exists" },
-          { status: 400 }
+          { status: 400 },
         );
       }
-      
     }
 
     const hashed = await hashPassword(password);
@@ -48,13 +47,14 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json(
       { success: true, message: "User created successfully" },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.error("POST /api/auth/signup error:", error);
+
     return NextResponse.json(
       { success: false, message: "Failed to create user" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

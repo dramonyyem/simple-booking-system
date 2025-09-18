@@ -17,6 +17,7 @@ export default function Page() {
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
+
     if (!username.trim()) newErrors.username = "Username is required";
     if (!email.trim()) newErrors.email = "Email is required";
     if (!password) newErrors.password = "Password is required";
@@ -25,6 +26,7 @@ export default function Page() {
       newErrors.repassword = "Passwords do not match";
     }
     setErrors(newErrors);
+
     return Object.keys(newErrors).length === 0;
   };
 
@@ -44,6 +46,7 @@ export default function Page() {
 
       if (!res.ok) {
         toast.error(data.message || "Signup failed");
+
         return;
       }
 
@@ -66,7 +69,7 @@ export default function Page() {
     <div className="flex justify-center items-center p-4">
       <div className="bg-white w-full max-w-md sm:max-w-lg mx-auto lg:max-w-2xl rounded-2xl shadow-lg p-6 sm:p-10">
         <Toaster position="top-center" />
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSignup}>
           <div>
             <p className="text-xl font-semibold">Sign Up to Booking System</p>
             <a
@@ -114,8 +117,8 @@ export default function Page() {
             <div className="flex justify-between">
               <label htmlFor="password">Password</label>
               <button
-                type="button"
                 className="text-purple-500 text-sm"
+                type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Hide" : "Show"}
@@ -139,8 +142,8 @@ export default function Page() {
             <div className="flex justify-between">
               <label htmlFor="repassword">Re-Password</label>
               <button
-                type="button"
                 className="text-purple-500 text-sm"
+                type="button"
                 onClick={() => setShowRePassword(!showRePassword)}
               >
                 {showRePassword ? "Hide" : "Show"}

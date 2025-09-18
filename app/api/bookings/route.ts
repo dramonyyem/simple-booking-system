@@ -76,7 +76,6 @@ async function sendBookingEmail(to: string, booking: any) {
   });
 }
 
-
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
 
@@ -132,7 +131,7 @@ export async function POST(req: NextRequest) {
       });
     }
     const user = payload.userId;
-    
+
     const booking = new Booking({
       date: dateInput,
       time: time,
@@ -144,7 +143,11 @@ export async function POST(req: NextRequest) {
 
     await sendBookingEmail(payload.email, booking);
 
-    return NextResponse.json({ message: "Booking Added Successfully", status: 200, booking });
+    return NextResponse.json({
+      message: "Booking Added Successfully",
+      status: 200,
+      booking,
+    });
   } catch (error) {}
 }
 
@@ -166,6 +169,7 @@ export async function DELETE(req: NextRequest) {
     });
   } catch (error) {
     console.error(error);
+
     return NextResponse.json({ message: "Delete failed", status: 500 });
   }
 }

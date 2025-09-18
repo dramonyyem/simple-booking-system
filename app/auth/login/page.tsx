@@ -13,6 +13,7 @@ export default function LoginPage() {
 
     if (!username || !password) {
       toast.error("Please fill in Username and Password");
+
       return;
     }
 
@@ -45,7 +46,7 @@ export default function LoginPage() {
     <div className="flex justify-center items-center p-4">
       <Toaster position="top-center" />
       <div className="bg-white w-full mx-auto max-w-md sm:max-w-lg lg:max-w-xl rounded-2xl shadow-lg p-6 sm:p-10">
-        <form onSubmit={handleLogin} className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
           {/* Header */}
           <div className="text-center space-y-2">
             <h1 className="text-purple-600 text-2xl font-bold">
@@ -62,13 +63,13 @@ export default function LoginPage() {
 
           {/* Username */}
           <div>
-            <label htmlFor="username" className="block font-medium">
+            <label className="block font-medium" htmlFor="username">
               Username
             </label>
             <input
-              id="username"
               className="mt-1 bg-gray-100 p-3 w-full rounded-lg border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition disabled:opacity-50"
               disabled={isSubmitting}
+              id="username"
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
@@ -78,21 +79,21 @@ export default function LoginPage() {
           {/* Password */}
           <div>
             <div className="flex justify-between items-center">
-              <label htmlFor="password" className="font-medium">
+              <label className="font-medium" htmlFor="password">
                 Password
               </label>
               <button
-                type="button"
                 className="text-purple-500 text-sm font-medium"
+                type="button"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
             <input
-              id="password"
               className="mt-1 bg-gray-100 p-3 w-full rounded-lg border border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition disabled:opacity-50"
               disabled={isSubmitting}
+              id="password"
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}

@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { DatePicker } from "@heroui/date-picker";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 import { formatDate } from "@/utils/function";
 import CustomLayout from "@/components/layout-custom";
 import Navigation from "@/components/navigation";
-import Link from "next/link";
-import toast from "react-hot-toast";
 
 type User = {
   username: string;
@@ -30,11 +30,12 @@ export default function BookingHistoriesPage() {
   const [dateFilter, setDateFilter] = useState<any | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 3; 
+  const rowsPerPage = 3;
   const fetchBookings = async () => {
     try {
       const res = await fetch("/api/booking_histories", { method: "GET" });
       const data = await res.json();
+
       setBookings(data.bookings);
       setFilteredBookings(data.bookings);
     } catch (err) {
@@ -68,7 +69,9 @@ export default function BookingHistoriesPage() {
   useEffect(() => {
     const filtered = bookings.filter((booking) => {
       const rowString = Object.values(booking)
-        .map((val) => (typeof val === "object" ? JSON.stringify(val) : String(val)))
+        .map((val) =>
+          typeof val === "object" ? JSON.stringify(val) : String(val),
+        )
         .join(" ")
         .toLowerCase();
 
@@ -76,7 +79,9 @@ export default function BookingHistoriesPage() {
       const matchesUsername = booking.user.username
         .toLowerCase()
         .includes(usernameFilter.toLowerCase());
-      const matchesDate = dateFilter ? booking.date === formatDate(dateFilter) : true;
+      const matchesDate = dateFilter
+        ? booking.date === formatDate(dateFilter)
+        : true;
 
       return matchesSearch && matchesUsername && matchesDate;
     });
@@ -105,8 +110,8 @@ export default function BookingHistoriesPage() {
               Booking Histories
             </h1>
             <Link
-              href="/bookings"
               className="text-white bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg transition"
+              href="/bookings"
             >
               Add Booking
             </Link>
@@ -160,11 +165,22 @@ export default function BookingHistoriesPage() {
                   </tr>
                 ) : (
                   currentRows.map((booking) => (
-                    <tr key={booking._id} className="hover:bg-purple-50 transition">
-                      <td className="p-3 border border-gray-300">{booking.time}</td>
-                      <td className="p-3 border border-gray-300">{booking.date}</td>
-                      <td className="p-3 border border-gray-300">{booking._id}</td>
-                      <td className="p-3 border border-gray-300">{booking.user.username}</td>
+                    <tr
+                      key={booking._id}
+                      className="hover:bg-purple-50 transition"
+                    >
+                      <td className="p-3 border border-gray-300">
+                        {booking.time}
+                      </td>
+                      <td className="p-3 border border-gray-300">
+                        {booking.date}
+                      </td>
+                      <td className="p-3 border border-gray-300">
+                        {booking._id}
+                      </td>
+                      <td className="p-3 border border-gray-300">
+                        {booking.user.username}
+                      </td>
                       <td className="p-3 border border-gray-300">
                         <div className="flex gap-2 flex-wrap">
                           <Link

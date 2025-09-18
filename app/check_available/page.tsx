@@ -48,8 +48,7 @@ export default function Page() {
 
       setDisplay(data.bookings);
 
-      console.log(display)
-
+      console.log(display);
     } catch (error) {
       console.error(error);
     } finally {

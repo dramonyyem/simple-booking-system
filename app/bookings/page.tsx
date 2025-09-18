@@ -8,6 +8,7 @@ import { CalendarDate } from "@internationalized/date";
 import toast, { Toaster } from "react-hot-toast";
 
 import { available_time } from "../../data/availableTime";
+
 import CustomLayout from "@/components/layout-custom";
 import { formatDate } from "@/utils/function";
 
@@ -21,7 +22,7 @@ export default function Page() {
   const todayValue = new CalendarDate(
     today.getFullYear(),
     today.getMonth() + 1,
-    today.getDate()
+    today.getDate(),
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -30,7 +31,7 @@ export default function Page() {
 
     const dateInput = formatDate(date);
 
-    setLoading(true); 
+    setLoading(true);
     try {
       const res = await fetch("/api/bookings", {
         method: "POST",
@@ -52,7 +53,7 @@ export default function Page() {
     } catch (error) {
       toast.error("Something went wrong!");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -67,7 +68,7 @@ export default function Page() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+          <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
             <DatePicker
               className="w-full"
               label="Booking date"
@@ -85,6 +86,7 @@ export default function Page() {
               onSelectionChange={(keys) => {
                 if (typeof keys !== "string") {
                   const firstKey = Array.from(keys)[0];
+
                   setTime(firstKey ? String(firstKey) : null);
                 }
               }}
@@ -109,20 +111,20 @@ export default function Page() {
                 className={`p-3 rounded-lg w-full text-white transition
                   ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-purple-500 hover:bg-purple-600"}
                 `}
-                type="submit"
                 disabled={loading}
+                type="submit"
               >
-                {loading ? "Submitting..." : "Submit"} 
+                {loading ? "Submitting..." : "Submit"}
               </button>
               <button
-                type="button"
                 className="p-3 bg-gray-300 text-black rounded-lg w-full hover:bg-gray-400 transition"
+                disabled={loading} // optional: disable reset while submitting
+                type="button"
                 onClick={() => {
                   setDate(null);
                   setTime(null);
                   setNote("");
                 }}
-                disabled={loading} // optional: disable reset while submitting
               >
                 Reset
               </button>

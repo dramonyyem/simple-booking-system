@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 import CustomLayout from "@/components/layout-custom";
 import Navigation from "@/components/navigation";
-import toast from "react-hot-toast";
 
 type User = {
   _id: string;
@@ -24,8 +25,10 @@ export default function ProfilePage() {
   const fetchUser = async () => {
     try {
       const res = await fetch("/api/auth/profile");
+
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
+
       setUser(data.user);
     } catch (err) {
       console.error("Profile fetch error:", err);
@@ -48,6 +51,7 @@ export default function ProfilePage() {
     try {
       if (field === "phone" && !/^\d*$/.test(user.phone ?? "")) {
         toast.error("Phone number must be numeric");
+
         return;
       }
 
@@ -60,6 +64,7 @@ export default function ProfilePage() {
       if (!res.ok) throw new Error("Update failed");
 
       const data = await res.json();
+
       setUser(data.user);
       setEditingField(null);
       toast.success("Profile Updated");
@@ -70,7 +75,8 @@ export default function ProfilePage() {
 
   const renderField = (label: string, field: keyof User) => {
     if (!user) return null;
-    const value = typeof user[field] === "string" ? (user[field] as string) : "";
+    const value =
+      typeof user[field] === "string" ? (user[field] as string) : "";
 
     return (
       <div
